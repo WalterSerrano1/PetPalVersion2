@@ -1,0 +1,47 @@
+body {
+    /*    background: linear-gradient(135deg, #f6f4ff, #fff0f0);*/
+    background-color: #fff0f0;
+}
+
+.pet-card {
+    background-image: url('../images/PetPaw.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+    .pet-card .card-body {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
+
+    .pet-card:hover {
+        transform: scale(1.03);
+    }
+
+.appointments-card, .reminders-card {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 1rem;
+    background-color: white;
+}
+
+.floating-add-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    border-radius: 50%;
+    padding: 16px;
+    font-size: 24px;
+}
+
+.pet-card img {
+    padding-top: 10px;
+    height: 500px;
+    width: 100%;
+    object-fit: contain;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}

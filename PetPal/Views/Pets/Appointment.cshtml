@@ -1,0 +1,56 @@
+﻿@model Appointment
+@{
+	ViewBag.Title = "Appointment";
+}
+
+<h2>Schedule an appointment for Model.PetName's</h2>
+
+<div class="row">
+
+	<div class="col-md-4">
+		<div class="card">
+			<img src="~/images/DogAppointment.jpg" class="card-img-top" alt="Pet Image">
+			<div class="card-body">
+				<h5 class="card-title">Lets make an Appointment</h5>
+				<p class="card-text">1. Choose the type of <strong>Appointment</strong> (Vet or Grooming)</p>
+				<p class="card-text">2. Choose the <strong>Date</strong></p>
+				<p class="card-text">3. Choose the <strong>Time</strong></p>
+				<p class="card-text">4. Enter a <strong>Location</strong></p>
+				<p class="card-text">5. Add any <strong>Notes</strong> about the appointment</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<form asp-action="Appointment" method="post">
+			<div asp-validation-summary="All" class="text-danger">
+			</div>
+			<div class="form-group">
+				<label asp-for="AppointmentType">Appointment Type</label>
+				<select asp-for="AppointmentType" class="form-control">
+					<option value="">Select</option>
+					<option value="Vet">Vet</option>
+					<option value="Grooming">Grooming</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label asp-for="AppointmentDate">Date</label>
+				<input asp-for="AppointmentDate" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="AppointmentTime">Time</label>
+				<input asp-for="AppointmentTime" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="Location">Location</label>
+				<input asp-for="Location" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="Notes">Notes</label>
+				<input asp-for="Notes" class="form-control" />
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+		</form>
+	</div>
+</div>

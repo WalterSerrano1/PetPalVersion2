@@ -1,0 +1,58 @@
+﻿@{
+	ViewData["Title"] = "Pet Details";
+
+	var pet = new
+	{
+		Name = "Mavis",
+		Breed = "Australian Shepherd",
+		Age = 3,
+		Birthday = "March 23rd",
+		Notes = "Loves to play fetch. High energy, needs constant walks.",
+		ImageUrl = "/images/Mavis.jpg"
+	};
+}
+
+<div class="container mt-5">
+	<h2 class="text-center mb-4">@pet.Name's Profile</h2>
+
+	<div class="row">
+		<!-- Left column: Pet Information -->
+		<div class="col-md-4">
+			<div class="card mb-4">
+				<img src="@pet.ImageUrl" class="card-img-top" alt="@pet.Name" />
+				<div class="card-body text-center">
+					<h4 class="card-title">@pet.Name</h4>
+					<p class="card-text"><strong>Breed:</strong> @pet.Breed</p>
+					<p class="card-text"><strong>Age:</strong> @pet.Age years old</p>
+					<p class="card-text"><strong>Weight:</strong> @pet.Birthday</p>
+					<p class="card-text"><strong>Notes:</strong> @pet.Notes</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Right column: Calendar and Links -->
+		<div class="col-md-8">
+			<h4 class="mb-3">Activity Calendar</h4>
+			<div id="calendarContainer" class="p-4 mb-4" style="background-color: #f8f9fa; border-radius: 10px; min-height: 400px;">
+				<div id='calendar'></div>
+				<script>
+												   document.addEventListener('DOMContentLoaded', function() {
+					  var calendarEl = document.getElementById('calendar');
+					  var calendar = new FullCalendar.Calendar(calendarEl, {
+						initialView: 'dayGridMonth'
+					  });
+					  calendar.render();
+					});
+				</script>
+				</script>
+			</div>
+
+			<!-- Links under the calendar -->
+			<div class="d-flex gap-3">
+				<a asp-controller="Pets" asp-action="Appointments" class="btn btn-primary flex-fill">Set an Appointment</a>
+				<a asp-controller="Pets" asp-action="Feeding" class="btn btn-primary flex-fill">Set a Schedule</a>
+				<a asp-controller="Pets" asp-action="Training" class="btn btn-primary flex-fill">Log Training Exercise</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,73 @@
+﻿@model Pet
+@{
+	ViewBag.Title = "Add Pet";
+}
+
+<h2>Add a new Pet</h2>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="card">
+			<img src="~/images/AddPet.jpg" class="card-img-top" alt="Pet Image">
+			<div class="card-body">
+				<h5 class="card-title">Tell us about your Pet</h5>
+				<p class="card-text">1. Tell us your pets <strong>Name</strong></p>
+				<p class="card-text">2. Enter your pets <strong>Type</strong></p>
+				<p class="card-text">3. What is their <strong>Breed</strong></p>
+				<p class="card-text">4. Enter their <strong>Age</strong></p>
+				<p class="card-text">5. When is their <strong>Birthday</strong></p>
+				<p class="card-text">6. Upload a <strong>Picture</strong> to show us what they look like!</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<form asp-action="Add" method="post">
+			<div asp-validation-summary="All" class="text-danger">
+			</div>
+			<div class="form-group">
+				<label asp-for="PetName">Pet Name</label>
+				<input asp-for="PetName" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="PetType">Pet Type</label>
+				<select asp-for="PetType" class="form-control">
+					<option value="">Select</option>
+					<option value="Dog">Dog</option>
+					<option value="Cat">Cat</option>
+					<option value="Bird">Bird</option>
+					<option value="Fish">Fish</option>
+					<option value="Reptile">Reptile</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label asp-for="PetBreed">Pet Breed</label>
+				<input asp-for="PetBreed" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="PetAge">Pet Age</label>
+				<input asp-for="PetAge" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="PetBirthday">Pet Birthday</label>
+				<input asp-for="PetBirthday" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="PetGender" class="control-label"></label>
+				<select asp-for="PetGender" class="form-control">
+					<option value="">-- Select Gender --</option>
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Upload Pet Image (coming soon)</label>
+				<input type="file" name="ImageFile" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>

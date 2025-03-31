@@ -1,0 +1,88 @@
+﻿@model IEnumerable<PetPal.Models.Pet>
+@{
+    ViewData["Title"] = "Home Page";
+    int index = 0;
+}
+@functions {
+    public class Reminder
+    {
+        public string Message { get; set; }
+        public string StatusClass { get; set; } 
+    }
+
+    public class Appointment
+    {
+        public DateTime Date { get; set; }
+        public string Type { get; set; }
+        public string PetName { get; set; }
+    }
+
+
+    List<Reminder> reminders = new List<Reminder>
+    {
+        new Reminder { Message = "Vaccination due for Ollie", StatusClass = "text-danger" },
+        new Reminder { Message = "Checkup due for Mavis", StatusClass = "text-warning" },
+        new Reminder { Message = "Grooming due for Max", StatusClass = "text-warning" }
+    };
+
+    List<Appointment> appointments = new List<Appointment>
+    {
+        new Appointment { Date = DateTime.Today.AddDays(1), Type = "Vaccination", PetName = "Ollie" },
+        new Appointment { Date = DateTime.Today.AddDays(2), Type = "Checkup", PetName = "Mavis" },
+        new Appointment { Date = DateTime.Today.AddDays(3), Type = "Grooming", PetName = "Max" }
+    };
+}
+
+<body>
+    <div class="container py-4">
+        <h1 class="text-center mb-4">Welcome to PetPal Dashboard</h1>
+
+        <div class="row g-4">
+            <!-- Pets Grid -->
+            <div class="col-12">
+                <h3>Your Pets</h3>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var pet in Model)
+                    {
+                        <div class="col">
+                            <div class="card pet-card">
+                                <img src="@pet.ImageUrl" class="card-img-top" alt="@pet.PetName">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">@pet.PetName</h5>
+                                    <p class="card-text">@pet.PetBreed, @pet.PetAge years old</p>
+                                    <a class="btn btn-primary">View Details</a> <!--Change to Asp format-->
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Bottom Row: Appointments and Reminders -->
+            <div class="col-md-6">
+                <div class="appointments-card">
+                    <h4>Upcoming Appointments</h4>
+                    <ul class="list-group">
+                        @foreach (var appointment in appointments)
+                        {
+                            <li class="list-group-item">@appointment.Date.ToString("MMMM dd") - @appointment.Type for @appointment.PetName</li>
+                        }
+                    </ul>
+                    <a href="/Appointments" class="btn btn-link mt-2">View All</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="reminders-card">
+                    <h4>Reminders</h4>
+                    <ul class="list-group">
+                        @foreach (var reminder in reminders)
+                        {
+                            <li class="list-group-item @(reminder.StatusClass)">@reminder.Message</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
