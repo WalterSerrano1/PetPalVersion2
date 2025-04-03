@@ -14,11 +14,7 @@ namespace PetPal.Models
 		public string PetName { get; set; }
 
 		[Required]
-		[DataType(DataType.Date)]
-		public DateTime AppointmentDate { get; set; }
-
-		[DataType(DataType.Time)]
-		public DateTime AppointmentTime { get; set; }
+		public DateTime AppointmentDateTime { get; set; }
 
 		public string Location { get; set; }
 
@@ -28,7 +24,10 @@ namespace PetPal.Models
 
 		[StringLength(500)]
 		public string Notes { get; set; }
-		public bool IsComplete { get; set; }
+
 		public Pet Pet { get; set; }
+
+		//Not added to the database, only for display
+		public bool IsPast => AppointmentDateTime < DateTime.Now;
 	}
 }

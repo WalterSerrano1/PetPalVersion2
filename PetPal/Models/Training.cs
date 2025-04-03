@@ -20,10 +20,11 @@ namespace PetPal.Models
 		public string TrainingType { get; set; } //Walking, Play time or training etc.
 
 		[Range(1, 300)]
-		public int TrainingDuration { get; set; }
+		public int TrainingDurationMinutes { get; set; }
 
 		[StringLength(500)]
 		public string TrainingNotes { get; set; }
 		public Pet Pet { get; set; }
+		public bool IsPast => TrainingDate < DateTime.Today;
 	}
 }
