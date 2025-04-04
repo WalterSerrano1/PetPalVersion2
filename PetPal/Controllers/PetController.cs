@@ -24,29 +24,7 @@ namespace PetManagement.Controllers
 			var pet = _context.Pet.FirstOrDefault(p => p.PetId == id);
 			return View(pet);
 		}
-		public IActionResult Appointment()
-		{
-			return View();
-		}
-		public IActionResult Schedule()
-		{
-			return View();
-		}
-		public IActionResult Training(int id)
-		{
-			var pet = _context.Pet.FirstOrDefault(p => p.PetId == id);
-			if (pet == null) return NotFound();
-
-			var training = new Training
-			{
-				PetId = pet.PetId,
-				PetName = pet.PetName,
-				TrainingDate = DateTime.Today
-			};
-
-			return View(training);
-		}
-
+	
 		// Get action for displaying add/edit pet form
 		public async Task<IActionResult> AddPet(int? id)
         {

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Schedule>
+
+@if (Model.Any())
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Type</th>
+                <th>Time</th>
+                <th>Recurrence</th>
+                <th>Portion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.ScheduleType</td>
+                    <td>@(s.ScheduleTime.HasValue ? s.ScheduleTime.Value.ToString("g") : "Not Set")</td>
+                    <td>@s.Recurrence</td>
+                    <td>@s.Portion</td>
+                    <td>
+                        <a asp-controller="Schedule" asp-action="Edit" asp-route-id="@s.ScheduleId" class="btn btn-sm btn-warning">Edit</a>
+                        <form asp-controller="Schedule" asp-action="Delete" asp-route-id="@s.ScheduleId" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No schedule set for this pet yet.</p>
+}

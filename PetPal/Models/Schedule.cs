@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace PetPal.Models
 {
@@ -40,6 +41,7 @@ namespace PetPal.Models
 		[StringLength(100)]
 		public string? ReminderNote { get; set; } // Instead of "Frequency"
 
+		[ValidateNever]
 		public Pet Pet { get; set; }
 
 		//Not in the database, display only

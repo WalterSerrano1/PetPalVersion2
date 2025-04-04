@@ -17,7 +17,10 @@
 					<p class="card-text"><strong>Gender</strong> @Model.PetGender</p>
 					<p class="card-text"><strong>Age:</strong> @Model.PetAge years old</p>
 					<p class="card-text"><strong>Birthday:</strong> @Model.PetBirthday.ToString("MMMM dd, yyyy")</p>
-					@* <p class="card-text"><strong>Notes:</strong> @Model.Notes</p> *@
+					<button type="button" class="btn btn-outline-secondary mb-3" data-bs-toggle="modal" data-bs-target="#scheduleModal" id="viewScheduleButton">
+						View Feeding & Medication Schedule
+					</button>
+					
 				</div>
 			</div>
 		</div>
@@ -44,9 +47,46 @@
 			<!-- Links under the calendar -->
 			<div class="d-flex gap-3">
 				<a asp-controller="Appointment" asp-action="Appointment" class="btn btn-primary flex-fill">Set an Appointment</a>
-				<a asp-controller="Pets" asp-action="Feeding" class="btn btn-primary flex-fill">Set a Schedule</a>
+				<a asp-controller="Schedule" asp-action="Create" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Set a Schedule</a>
 				<a asp-controller="Training" asp-action="Create" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Log Training Exercise</a>
+			</div>
+			<!-- Schedule Modal -->
+			<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="scheduleModalLabel">@Model.PetName's Schedule</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body" id="scheduleModalContent">
+							<!-- Schedule content will be dynamically loaded here -->
+							<p>Loading schedules...</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const viewScheduleButton = document.getElementById('viewScheduleButton');
+
+		viewScheduleButton.addEventListener('click', function() {
+			const petId = @Model.PetId;  // Assuming Model.PetId is set
+
+			// Send an AJAX request to load the schedules
+			fetch(`/Schedule/GetSchedule?petId=${petId}`)
+				.then(response => response.text())
+				.then(data => {
+					document.getElementById('scheduleModalContent').innerHTML = data;
+				})
+				.catch(error => {
+					document.getElementById('scheduleModalContent').innerHTML = "<p>Error loading schedules.</p>";
+				});
+		});
+	});
+</script>

@@ -14,6 +14,7 @@ namespace PetPal.Controllers
 		}
 
 		// GET; Training/Create/{petId}
+		[HttpGet]
 		public IActionResult Create(int petId)
 		{
 			var pet = _context.Pet.FirstOrDefault(p => p.PetId == petId);
@@ -45,6 +46,7 @@ namespace PetPal.Controllers
 		}
 
 		// GET: Training/Edit/{id}
+		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var training = await _context.Training
@@ -58,6 +60,7 @@ namespace PetPal.Controllers
 		}
 
 		// POST: Training/Edit/{id}
+		[HttpPost]
 		public async Task<IActionResult> Edit(Training training)
 		{
 			if (ModelState.IsValid)
@@ -70,6 +73,7 @@ namespace PetPal.Controllers
 		}
 
 		// GET: Training/Delete/{id}
+		[HttpGet]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var training = await _context.Training
@@ -94,16 +98,7 @@ namespace PetPal.Controllers
 		}
 
 		// GET: Training/Details/{id}
-		public async Task<IActionResult> Details(int id)
-		{
-			var training = await _context.Training
-				.Include(t => t.Pet)
-				.FirstOrDefaultAsync(t => t.TrainingId == id);
-			if (training == null) return NotFound();
-			training.PetName = training.Pet.PetName; // Set PetName from the related Pet entity
-			return View(training);
-		}
-
+		[HttpGet]
 		public async Task<IActionResult> GetDetailsPartial(int id)
 		{
 			var training = await _context.Training
@@ -112,7 +107,7 @@ namespace PetPal.Controllers
 
 			if (training == null) return NotFound();
 
-			return PartialView("TrainingDetails", training);
+			return PartialView("" + "TrainingDetails", training);
 		}
 
 
