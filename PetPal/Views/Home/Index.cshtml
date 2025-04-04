@@ -71,8 +71,15 @@
                          @foreach (var appointment in Model.Appointments) 
                          { 
                             <li class="list-group-item"> 
-                                 @appointment.AppointmentDateTime.ToString("MMMM dd, hh:mm tt") - 
-                                 @appointment.AppointmentType for @appointment.PetName 
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        @appointment.AppointmentDateTime.ToString("MMMM dd, hh:mm tt") - 
+                                        @appointment.AppointmentType for @appointment.PetName
+                                    </div>
+                                    <form asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-id="@appointment.AppointmentId" method="post" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                                        <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                                    </form>
+                                </div>
                              </li> 
                          } 
                      </ul> 

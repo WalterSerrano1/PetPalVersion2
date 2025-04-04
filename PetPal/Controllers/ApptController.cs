@@ -108,5 +108,35 @@ namespace PetPal.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAppointment (int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+            try
+            {
+                // Get the existing pet from database
+                var existingAppt = await _context.Appointments.FindAsync(id);
+                if (existingAppt == null)
+                {
+                    return NotFound();
+                }
+
+                // Update the database
+                _context.Remove(existingAppt);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error deleting appointment: " + ex.Message);
+            }
+
+            // Redirect to the pet details page or index
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
