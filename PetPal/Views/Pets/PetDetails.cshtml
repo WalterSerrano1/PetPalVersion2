@@ -45,7 +45,7 @@
 			<div class="d-flex gap-3">
 				<a asp-controller="Pets" asp-action="Appointments" class="btn btn-primary flex-fill">Set an Appointment</a>
 				<a asp-controller="Pets" asp-action="Feeding" class="btn btn-primary flex-fill">Set a Schedule</a>
-				<a asp-controller="Pets" asp-action="Training" class="btn btn-primary flex-fill">Log Training Exercise</a>
+				<a asp-controller="Training" asp-action="Create" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Log Training Exercise</a>
 			</div>
 		</div>
 	</div>

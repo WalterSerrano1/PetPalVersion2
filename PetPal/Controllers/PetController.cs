@@ -32,13 +32,23 @@ namespace PetManagement.Controllers
 		{
 			return View();
 		}
-		public IActionResult Training()
+		public IActionResult Training(int id)
 		{
-			return View();
+			var pet = _context.Pet.FirstOrDefault(p => p.PetId == id);
+			if (pet == null) return NotFound();
+
+			var training = new Training
+			{
+				PetId = pet.PetId,
+				PetName = pet.PetName,
+				TrainingDate = DateTime.Today
+			};
+
+			return View(training);
 		}
 
-        // Get action for displaying add/edit pet form
-        public async Task<IActionResult> AddPet(int? id)
+		// Get action for displaying add/edit pet form
+		public async Task<IActionResult> AddPet(int? id)
         {
             // If id is provided, we're in edit mode
             if (id.HasValue)

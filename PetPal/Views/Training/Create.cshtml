@@ -1,0 +1,75 @@
+﻿@model Training
+
+@{
+    ViewBag.Title = "Training";
+}
+
+<h2>Log a training/exercise session for <strong>@Model.PetName</strong></h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Adjusts form action based on if it's Create or Edit -->
+        <form asp-action="@(Model.TrainingId == 0 ? "Create" : "Edit")" method="post">
+
+            <!-- Show validation errors -->
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- Hidden fields for ID and pet reference -->
+            <input type="hidden" asp-for="PetId" />
+            <input type="hidden" asp-for="TrainingId" />
+			<input type="hidden" asp-for="PetName" />
+
+            <!-- Training Type -->
+            <div class="form-group">
+                <label asp-for="TrainingType"></label>
+                <select asp-for="TrainingType" class="form-control">
+                    <option value="">Select</option>
+                    <option value="Training">Training</option>
+                    <option value="Exercise">Exercise</option>
+                    <option value="Walk">Walk</option>
+                </select>
+                <span asp-validation-for="TrainingType" class="text-danger"></span>
+            </div>
+
+            <!-- Training Date -->
+            <div class="form-group">
+                <label asp-for="TrainingDate"></label>
+                <input asp-for="TrainingDate" class="form-control" />
+                <span asp-validation-for="TrainingDate" class="text-danger"></span>
+            </div>
+
+            <!-- Duration -->
+            <div class="form-group">
+                <label asp-for="TrainingDurationMinutes">Duration (in minutes)</label>
+                <input asp-for="TrainingDurationMinutes" class="form-control" />
+                <span asp-validation-for="TrainingDurationMinutes" class="text-danger"></span>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+                <label asp-for="TrainingNotes"></label>
+                <textarea asp-for="TrainingNotes" class="form-control"></textarea>
+                <span asp-validation-for="TrainingNotes" class="text-danger"></span>
+            </div>
+
+            <!-- Save Button -->
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+    <!-- Info Card -->
+    <div class="col-md-4">
+        <div class="card">
+            <img src="~/images/PetExercise.jpg" class="card-img-top" alt="Pet exercising">
+            <div class="card-body">
+                <h5 class="card-title">Log a session for your pet</h5>
+                <p class="card-text">1. Choose the type of <strong>Activity</strong> (Training, Walk, or Exercise)</p>
+                <p class="card-text">2. Select the <strong>Date</strong></p>
+                <p class="card-text">3. Enter the <strong>Duration</strong> in minutes</p>
+                <p class="card-text">4. Add any <strong>Notes</strong> if needed</p>
+            </div>
+        </div>
+    </div>
+</div>

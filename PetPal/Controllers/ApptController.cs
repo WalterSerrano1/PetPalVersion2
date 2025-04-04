@@ -74,7 +74,7 @@ namespace PetPal.Controllers
             if (ModelState.IsValid)
             {
                 // Add the appointment and save
-                _context.Appointment.Add(model);
+                _context.Appointments.Add(model);
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Appointment added successfully!";

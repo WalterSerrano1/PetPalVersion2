@@ -14,7 +14,7 @@ namespace PetPal.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Training> Training { get; set; }
 
-        public DbSet<Appointment> Appointment { get; set; }
+        //public DbSet<Appointment> Appointment { get; set; }
 
         // Add other DbSet properties for your entities here
 

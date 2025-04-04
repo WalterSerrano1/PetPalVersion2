@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace PetPal.Models
 {
@@ -24,6 +25,8 @@ namespace PetPal.Models
 
 		[StringLength(500)]
 		public string TrainingNotes { get; set; }
+
+		[ValidateNever]
 		public Pet Pet { get; set; }
 		public bool IsPast => TrainingDate < DateTime.Today;
 	}

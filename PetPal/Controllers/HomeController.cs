@@ -32,14 +32,14 @@ namespace PetPal.Controllers
 				 .Where(p => p.UserId == userId)
 				 .ToListAsync(),
 
-					Appointments = await _context.Appointments
-				 .Where(a => a.AppointmentDateTime >= DateTime.Today && a.Pet.UserId == userId)
-				 .Include(a => a.Pet)
-				 .OrderBy(a => a.AppointmentDateTime)
-				 .Take(5)
-				 .ToListAsync(),
+                    Appointments = await _context.Appointments
+                 .Where(a => a.AppointmentDateTime >= DateTime.Today && a.Pet.UserId == userId)
+                 .Include(a => a.Pet)
+                 .OrderBy(a => a.AppointmentDateTime)
+                 .Take(5)
+                 .ToListAsync(),
 
-					Trainings = await _context.Training
+                    Trainings = await _context.Training
 				 .Where(t => t.Pet.UserId == userId)
 				 .Include(t => t.Pet)
 				 .OrderBy(t => t.TrainingDate)

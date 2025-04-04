@@ -24,7 +24,8 @@ namespace PetPal.Models
 
 		[StringLength(500)]
 		public string Notes { get; set; }
-		public bool IsComplete { get; set; }
+
+		//public bool IsComplete { get; set; }
 		public Pet? Pet { get; set; }
 
 		//public bool IsPast => AppointmentDateTime < DateTime.Now;
