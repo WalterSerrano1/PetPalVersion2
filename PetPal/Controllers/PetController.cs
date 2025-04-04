@@ -185,17 +185,6 @@ namespace PetManagement.Controllers
                     // Redirect to the pet details page or index
                     return RedirectToAction("Index", "Home");
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PetExists(pet.PetId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Error updating pet: " + ex.Message);
@@ -205,6 +194,35 @@ namespace PetManagement.Controllers
             // redisplay form
             ViewBag.EditMode = true;
             return View("AddPet", pet);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePet(int id)
+        {
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+                try
+                {
+                    // Get the existing pet from database
+                    var existingPet = await _context.Pet.FindAsync(id);
+                    if (existingPet == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the database
+                    _context.Remove(existingPet);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error deleting pet: " + ex.Message);
+                }
+
+            // Redirect to the pet details page or index
+            return RedirectToAction("Index", "Home");
         }
 
 
