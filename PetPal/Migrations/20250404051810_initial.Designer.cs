@@ -12,7 +12,7 @@ using PetPal.Data;
 namespace PetPal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250331103940_initial")]
+    [Migration("20250404051810_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -287,13 +287,13 @@ namespace PetPal.Migrations
                         new
                         {
                             UserId = 1,
-                            Password = "$2a$11$ejEtGjvHiVrM.NDZqKAp7ejl6Y.NeOmM4sSRMKCSSxq2qDIHxXnZW",
+                            Password = "$2a$11$b2.cm/vJLKsDwUZr2K38/OERH.QoOswgbTr9tp75efDNPuf4p6wJu",
                             UserName = "Josie"
                         },
                         new
                         {
                             UserId = 2,
-                            Password = "$2a$11$kLQOcxVBMrelBvtY4Bh5IugXKJ5cKAI.lGKV50d5apjVoTFn5hVwm",
+                            Password = "$2a$11$BkvQVgG7shEsdDWKbVHyOeaNUm0pz1FZlILOZby/c5UExXWfHDyw.",
                             UserName = "Walter"
                         });
                 });

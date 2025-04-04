@@ -136,8 +136,8 @@ namespace PetPal.Migrations
                 columns: new[] { "UserId", "Password", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "$2a$11$ejEtGjvHiVrM.NDZqKAp7ejl6Y.NeOmM4sSRMKCSSxq2qDIHxXnZW", "Josie" },
-                    { 2, "$2a$11$kLQOcxVBMrelBvtY4Bh5IugXKJ5cKAI.lGKV50d5apjVoTFn5hVwm", "Walter" }
+                    { 1, "$2a$11$b2.cm/vJLKsDwUZr2K38/OERH.QoOswgbTr9tp75efDNPuf4p6wJu", "Josie" },
+                    { 2, "$2a$11$BkvQVgG7shEsdDWKbVHyOeaNUm0pz1FZlILOZby/c5UExXWfHDyw.", "Walter" }
                 });
 
             migrationBuilder.InsertData(

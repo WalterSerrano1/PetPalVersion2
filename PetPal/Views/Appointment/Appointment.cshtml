@@ -3,10 +3,11 @@
 	ViewBag.Title = "Appointment";
 }
 
-<h2>Schedule an appointment for Model.PetName's</h2>
+<h2>Schedule an appointment</h2>
 
 <div class="row">
 
+	<!--Instruction Card-->
 	<div class="col-md-4">
 		<div class="card">
 			<img src="~/images/DogAppointment.jpg" class="card-img-top" alt="Pet Image">
@@ -21,10 +22,20 @@
 		</div>
 	</div>
 
+	<!--Appointment form-->
 	<div class="col-md-8">
 		<form asp-action="Appointment" method="post">
-			<div asp-validation-summary="All" class="text-danger">
+			<!--Error summary-->
+			<div asp-validation-summary="All" class="text-danger"></div>
+
+			<!--Dropdown of all user's pets (passed from Appointment action method)-->
+			<div class="form-group">
+				<label asp-for="PetId">Appointment for:</label>
+				<select asp-for="PetId" asp-items="ViewBag.Pets" class="form-control">
+					<option value="" disabled>-- Select Pet --</option>
+				</select>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="AppointmentType">Appointment Type</label>
 				<select asp-for="AppointmentType" class="form-control">

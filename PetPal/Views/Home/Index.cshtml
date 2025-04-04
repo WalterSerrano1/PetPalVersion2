@@ -43,8 +43,12 @@
 
                 <div class="d-flex justify-content-between">
                     <h3>@User.Identity.Name's Pets</h3>
-                    <!-- Add Pet -->
-                    <a asp-controller="Pets" asp-action="AddPet" class="btn btn-success">Add Pet</a>
+                    <div>
+                        <!-- Add Pet -->
+                        <a asp-controller="Pets" asp-action="AddPet" class="btn btn-success">Add Pet</a>
+                        <!-- Add Appointment -->
+                        <a asp-controller="Appointment" asp-action="Appointment" class="btn btn-warning">Add Appt.</a>
+                    </div>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4">

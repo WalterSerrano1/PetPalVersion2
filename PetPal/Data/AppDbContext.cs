@@ -11,6 +11,8 @@ namespace PetPal.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Pet> Pet { get; set; }
 
+        public DbSet<Appointment> Appointment { get; set; }
+
         // Add other DbSet properties for your entities here
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
