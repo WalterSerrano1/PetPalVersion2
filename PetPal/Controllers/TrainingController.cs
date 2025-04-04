@@ -104,6 +104,17 @@ namespace PetPal.Controllers
 			return View(training);
 		}
 
+		public async Task<IActionResult> GetDetailsPartial(int id)
+		{
+			var training = await _context.Training
+				.Include(t => t.Pet)
+				.FirstOrDefaultAsync(t => t.TrainingId == id);
+
+			if (training == null) return NotFound();
+
+			return PartialView("TrainingDetails", training);
+		}
+
 
 	}
 }

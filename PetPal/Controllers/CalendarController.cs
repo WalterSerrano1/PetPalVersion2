@@ -15,7 +15,7 @@ namespace PetPal.Controllers
 		[HttpGet]
 		public JsonResult GetCalendarEvents(int petId)
 		{
-			//Store multiple events (Appointments & Training)
+			//store multiple events (appointments & training)
 			var events = new List<object>();
 
             // Get appointments for this pet and add them to events
