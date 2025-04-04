@@ -14,8 +14,9 @@
 				<div class="card-body text-center">
 					<h4 class="card-title">@Model.PetName</h4>
 					<p class="card-text"><strong>Breed:</strong> @Model.PetBreed</p>
+					<p class="card-text"><strong>Gender</strong> @Model.PetGender</p>
 					<p class="card-text"><strong>Age:</strong> @Model.PetAge years old</p>
-					<p class="card-text"><strong>Birthday:</strong> @Model.PetBirthday</p>
+					<p class="card-text"><strong>Birthday:</strong> @Model.PetBirthday.ToString("MMMM dd, yyyy")</p>
 					@* <p class="card-text"><strong>Notes:</strong> @Model.Notes</p> *@
 				</div>
 			</div>
@@ -29,14 +30,17 @@
 				<script>
 					document.addEventListener('DOMContentLoaded', function() {
 					  var calendarEl = document.getElementById('calendar');
+
 					  var calendar = new FullCalendar.Calendar(calendarEl, {
-						initialView: 'dayGridMonth'
+						initialView: 'dayGridMonth',
+						height: 'auto',
+						events: '/Calendar/GetCalendarEvents?petId=@Model.PetId'
 					  });
+
 					  calendar.render();
 					});
 				</script>
 			</div>
-
 			<!-- Links under the calendar -->
 			<div class="d-flex gap-3">
 				<a asp-controller="Pets" asp-action="Appointments" class="btn btn-primary flex-fill">Set an Appointment</a>

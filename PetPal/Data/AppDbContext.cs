@@ -71,7 +71,7 @@ namespace PetPal.Data
                     AppointmentId = 3,
                     PetId = 3,
                     PetName = "Ollie",
-                    AppointmentDateTime = new DateTime(2025, 04, 12, 14, 30, 0),// 2025 April 10, 2:00
+                    AppointmentDateTime = new DateTime(2025, 04, 12, 14, 30, 0),// 2025 April 12, 2:00
                     Location = "Dog & Cat Hospital - East Hill",
                     AppointmentType = "Vet",
                     Notes = "Follow-up for paw stitches",

@@ -13,12 +13,14 @@ namespace PetPal.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetCalendarEvents()
+		public JsonResult GetCalendarEvents(int petId)
 		{
 			//Store multiple events (Appointments & Training)
 			var events = new List<object>();
 
-			var appointments = context.Appointments.Select(a => new
+			var appointments = context.Appointments
+				.Where(a => a.PetId == petId)
+				.Select(a => new
 			{
 				title = a.AppointmentType + " - " + a.PetName, //Event title
 
@@ -30,7 +32,9 @@ namespace PetPal.Controllers
 			events.AddRange(appointments); //Add apointment events to the list 
 
 
-			var training = context.Training.Select(t => new
+			var training = context.Training
+				.Where(t => t.PetId == petId)
+				.Select(t => new
 			{
 				title = t.TrainingType + " - " + t.PetName, //Event title
 
@@ -46,14 +50,17 @@ namespace PetPal.Controllers
 
 		//I seperated from the calendar due the calendar being overloaded by feeding schdules
 		[HttpGet]
-		public JsonResult GetTodaySchedules()
+		public JsonResult GetTodaySchedules(int petId)
 		{
 			//Get today's date
 			var today = DateTime.Today;
 
 			//Query only todays feeding and medication
 			var schedule = context.Schedules
-				.Where(s => s.ScheduleDate == today && (s.ScheduleType == "Feeding" || s.ScheduleType == "Medication"))
+				.Where
+					(s => s.PetId == petId &&
+						  s.ScheduleDate == today && 
+						  (s.ScheduleType == "Feeding" || s.ScheduleType == "Medication"))
 				.Select(s => new
 				{
 					s.PetName,
