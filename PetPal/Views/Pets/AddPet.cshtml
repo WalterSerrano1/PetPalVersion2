@@ -1,17 +1,19 @@
 ﻿@model Pet
 @{
-	ViewBag.Title = "Add Pet";
+	ViewBag.Title = ViewBag.EditMode ? "Edit Pet" : "Add Pet";
 }
 
-<h2>Add a new Pet</h2>
+<h2>@(ViewBag.EditMode ? "Edit" : "Add") Pet</h2>
+
+
 
 <!--Adding Instruction Card-->
 <div class="row">
 	<div class="col-md-4">
 		<div class="card">
-			<img src="~/images/AddPet.jpg" class="card-img-top" alt="Pet Image">
+			<img src="@(ViewBag.EditMode ? Model.ImageUrl : "~/images/AddPet.jpg")" class="card-img-top" alt="Pet Image">
 			<div class="card-body">
-				<h5 class="card-title">Tell us about your Pet</h5>
+				<h5 class="card-title">@(ViewBag.EditMode ? "Edit your pet's details" : "Tell us about your Pet")</h5>
 				<p class="card-text">1. Tell us your pets <strong>Name</strong></p>
 				<p class="card-text">2. Enter your pets <strong>Type</strong></p>
 				<p class="card-text">3. What is their <strong>Breed</strong></p>
@@ -22,14 +24,25 @@
 		</div>
 	</div>
 
+
 	<div class="col-md-8">
-		<!--Add Pet Form, enctype attribute for image upload-->
-		<form asp-controller="Pets" asp-action="AddPet" method="post" enctype="multipart/form-data">
-			<div asp-validation-summary="All" class="text-danger">
-			</div>
+		<!--Add/Edit Pet Form, enctype attribute for image upload-->
+		<form asp-controller="Pets" asp-action="@(ViewBag.EditMode ? "EditPet" : "AddPet")" asp-route-id="@Model.PetId" method="post" enctype="multipart/form-data">
+			
+			<!--error summary-->
+			<div asp-validation-summary="All" class="text-danger"></div>
+
+			<!--previous pet values to resubmit-->
+			@if (ViewBag.EditMode)
+			{
+				<input type="hidden" asp-for="PetId" />
+				<input type="hidden" asp-for="UserId" />
+				<input type="hidden" asp-for="ImageUrl" />
+			}
+
 			<div class="form-group">
 				<label asp-for="PetName">Pet Name</label>
-				<input asp-for="PetName" class="form-control" required/>
+				<input asp-for="PetName" class="form-control" placeholder="@Model.PetName" required />
 			</div>
 			<div class="form-group">
 				<label asp-for="PetType">Pet Type</label>
@@ -44,11 +57,11 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="PetBreed">Pet Breed</label>
-				<input asp-for="PetBreed" class="form-control" />
+				<input asp-for="PetBreed" class="form-control" placeholder="@Model.PetBreed" />
 			</div>
 			<div class="form-group">
 				<label asp-for="PetAge">Pet Age</label>
-				<input asp-for="PetAge" type="number" min="0" class="form-control" required />
+				<input asp-for="PetAge" type="number" min="0" class="form-control" placeholder="@Model.PetAge" required />
 			</div>
 			<div class="form-group">
 				<label asp-for="PetBirthday">Pet Birthday</label>

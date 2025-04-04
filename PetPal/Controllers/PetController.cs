@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PetPal.Data;
 using PetPal.Models;
 using System.Security.Claims;
@@ -34,15 +36,34 @@ namespace PetManagement.Controllers
 			return View();
 		}
 
-		//Get action for displaying add pet form
-		public IActionResult AddPet()
-		{
-			return View();
-		}
+        // Get action for displaying add/edit pet form
+        public async Task<IActionResult> AddPet(int? id)
+        {
+            // If id is provided, we're in edit mode
+            if (id.HasValue)
+            {
+                // Find the pet by id
+                var pet = await _context.Pet.FindAsync(id.Value);
 
-		//POST action for handling form submission
-		[HttpPost]
-		public async Task<IActionResult> AddPet (Pet pet, IFormFile? ImageFile)
+                // If pet doesn't exist, return not found
+                if (pet == null)
+                {
+                    return NotFound();
+                }
+
+                // Pass the pet to the view for editing
+                ViewBag.EditMode = true;
+                return View(pet);
+            }
+
+            // If no id is provided, use add mode
+            ViewBag.EditMode = false;
+            return View(new Pet()); // Pass an empty pet model
+        }
+
+        //POST action for handling form submission
+        [HttpPost]
+		public async Task<IActionResult> AddPet(Pet pet, IFormFile? ImageFile)
 		{
 			if (ModelState.IsValid)
 			{
@@ -96,6 +117,93 @@ namespace PetManagement.Controllers
 
             // If fail redisplay form
             ModelState.AddModelError("", "Save failed. Please try again.");
+            return View("AddPet", pet);
+        }
+
+        // Helper method to check if a pet exists
+        private bool PetExists(int id)
+        {
+            return _context.Pet.Any(e => e.PetId == id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPet(int id, Pet pet, IFormFile? ImageFile)
+        {
+            if (id != pet.PetId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Get the existing pet from database
+                    var existingPet = await _context.Pet.FindAsync(id);
+                    if (existingPet == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the properties from the form
+                    existingPet.PetName = pet.PetName;
+                    existingPet.PetType = pet.PetType;
+                    existingPet.PetBreed = pet.PetBreed;
+                    existingPet.PetAge = pet.PetAge;
+                    existingPet.PetBirthday = pet.PetBirthday;
+                    existingPet.PetGender = pet.PetGender;
+
+                    // Handle the image file if provided
+                    if (ImageFile != null && ImageFile.Length > 0)
+                    {
+                        var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+
+                        // Create directory if it doesn't exist
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        // Create a unique filename
+                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(ImageFile.FileName);
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        // Save the file
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ImageFile.CopyToAsync(fileStream);
+                        }
+
+                        // Update the image URL
+                        existingPet.ImageUrl = "/images/" + uniqueFileName;
+                    }
+
+                    // Update the database
+                    _context.Update(existingPet);
+                    await _context.SaveChangesAsync();
+
+                    // Redirect to the pet details page or index
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PetExists(pet.PetId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error updating pet: " + ex.Message);
+                }
+            }
+
+            // redisplay form
+            ViewBag.EditMode = true;
             return View("AddPet", pet);
         }
 
