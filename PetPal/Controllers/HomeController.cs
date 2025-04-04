@@ -33,7 +33,7 @@ namespace PetPal.Controllers
 				 .ToListAsync(),
 
                     Appointments = await _context.Appointments
-                 .Where(a => a.AppointmentDateTime >= DateTime.Today && a.Pet.UserId == userId)
+                 .Where(a => a.Pet.UserId == userId)
                  .Include(a => a.Pet)
                  .OrderBy(a => a.AppointmentDateTime)
                  .Take(5)

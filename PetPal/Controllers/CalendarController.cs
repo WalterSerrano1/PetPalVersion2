@@ -18,21 +18,22 @@ namespace PetPal.Controllers
 			//Store multiple events (Appointments & Training)
 			var events = new List<object>();
 
-			//var appointments = context.Appointments
-			//	.Where(a => a.PetId == petId)
-			//	.Select(a => new
-			//{
-			//	title = a.AppointmentType + " - " + a.PetName, //Event title
+            // Get appointments for this pet and add them to events
+            var appointments = context.Appointments
+            	.Where(a => a.PetId == petId)
+            	.Select(a => new
+				{
+            		title = a.AppointmentType + " - " + a.PetName, //Event title
 
-			//	start = a.AppointmentDateTime.ToString("s"), //When the event occurs
+            		start = a.AppointmentDateTime.ToString("s"), //When the event occurs
 
-			//	color = "green" //green for appointments
-			//});
+            		color = "green" //green for appointments
+				});
 
-			//events.AddRange(appointments); //Add appointment events to the list 
+            events.AddRange(appointments); //Add appointment events to the list 
 
 
-			var training = context.Training
+            var training = context.Training
 				.Where(t => t.PetId == petId)
 				.Select(t => new
 			{

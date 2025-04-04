@@ -19,7 +19,7 @@ namespace PetPal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Appointment()
+        public async Task<IActionResult> Appointment(int? id = null)
         {
             // Get the current user's ID
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -43,6 +43,18 @@ namespace PetPal.Controllers
 
             // Create a new appointment model
             var appointment = new Appointment();
+
+            // If a specific pet ID was provided, pre-select that pet
+            if (id.HasValue)
+            {
+                appointment.PetId = id.Value;
+                var pet = await _context.Pet.FirstOrDefaultAsync(p => p.PetId == id.Value);
+                if (pet != null)
+                {
+                    appointment.PetName = pet.PetName;
+                }
+            }
+
             return View(appointment);
         }
 

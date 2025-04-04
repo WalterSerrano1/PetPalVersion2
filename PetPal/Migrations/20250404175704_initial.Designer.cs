@@ -12,7 +12,7 @@ using PetPal.Data;
 namespace PetPal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250404071308_initial")]
+    [Migration("20250404175704_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -41,9 +41,6 @@ namespace PetPal.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -64,7 +61,7 @@ namespace PetPal.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("Appointments");
 
                     b.HasData(
                         new
@@ -72,7 +69,6 @@ namespace PetPal.Migrations
                             AppointmentId = 1,
                             AppointmentDateTime = new DateTime(2025, 4, 20, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             AppointmentType = "Vet",
-                            IsComplete = false,
                             Location = "Happy Paws Clinic",
                             Notes = "Regualar check-up and vaccination update",
                             PetId = 1,
@@ -83,7 +79,6 @@ namespace PetPal.Migrations
                             AppointmentId = 2,
                             AppointmentDateTime = new DateTime(2025, 4, 10, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             AppointmentType = "Grooming",
-                            IsComplete = false,
                             Location = "Pet Smart",
                             Notes = "Full grooming with nail trim",
                             PetId = 2,
@@ -94,7 +89,6 @@ namespace PetPal.Migrations
                             AppointmentId = 3,
                             AppointmentDateTime = new DateTime(2025, 4, 12, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             AppointmentType = "Vet",
-                            IsComplete = false,
                             Location = "Dog & Cat Hospital - East Hill",
                             Notes = "Follow-up for paw stitches",
                             PetId = 3,
@@ -389,13 +383,13 @@ namespace PetPal.Migrations
                         new
                         {
                             UserId = 1,
-                            Password = "$2a$11$t1oCzHH/FUUsRtfflzCzo.Ak6tyfhnM7tQw0dP1dE.YUP7Le0zx32",
+                            Password = "$2a$11$XvhBmNBynzFRtkLpc3fGOOlTLAajDyI5speB1xs8L3bBYXBTRGiVq",
                             UserName = "Josie"
                         },
                         new
                         {
                             UserId = 2,
-                            Password = "$2a$11$uxv9DKE/dPHwGv4tqVlWxekkBxbkGRYpPVL3jFrVlQwRCAHA1R38K",
+                            Password = "$2a$11$WIKNUkJktAuWq8Hk2E/7QObhCzXmf07Ig/PVHbw3DSFxVXhFhU2Ha",
                             UserName = "Walter"
                         });
                 });

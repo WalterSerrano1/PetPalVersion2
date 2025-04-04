@@ -54,7 +54,7 @@ namespace PetPal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointment",
+                name: "Appointments",
                 columns: table => new
                 {
                     AppointmentId = table.Column<int>(type: "int", nullable: false)
@@ -64,14 +64,13 @@ namespace PetPal.Migrations
                     AppointmentDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppointmentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    IsComplete = table.Column<bool>(type: "bit", nullable: false)
+                    Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointment", x => x.AppointmentId);
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
                     table.ForeignKey(
-                        name: "FK_Appointment_Pet_PetId",
+                        name: "FK_Appointments_Pet_PetId",
                         column: x => x.PetId,
                         principalTable: "Pet",
                         principalColumn: "PetId",
@@ -136,8 +135,8 @@ namespace PetPal.Migrations
                 columns: new[] { "UserId", "Password", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "$2a$11$t1oCzHH/FUUsRtfflzCzo.Ak6tyfhnM7tQw0dP1dE.YUP7Le0zx32", "Josie" },
-                    { 2, "$2a$11$uxv9DKE/dPHwGv4tqVlWxekkBxbkGRYpPVL3jFrVlQwRCAHA1R38K", "Walter" }
+                    { 1, "$2a$11$XvhBmNBynzFRtkLpc3fGOOlTLAajDyI5speB1xs8L3bBYXBTRGiVq", "Josie" },
+                    { 2, "$2a$11$WIKNUkJktAuWq8Hk2E/7QObhCzXmf07Ig/PVHbw3DSFxVXhFhU2Ha", "Walter" }
                 });
 
             migrationBuilder.InsertData(
@@ -152,13 +151,13 @@ namespace PetPal.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Appointment",
-                columns: new[] { "AppointmentId", "AppointmentDateTime", "AppointmentType", "IsComplete", "Location", "Notes", "PetId", "PetName" },
+                table: "Appointments",
+                columns: new[] { "AppointmentId", "AppointmentDateTime", "AppointmentType", "Location", "Notes", "PetId", "PetName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 4, 20, 10, 30, 0, 0, DateTimeKind.Unspecified), "Vet", false, "Happy Paws Clinic", "Regualar check-up and vaccination update", 1, "Joey" },
-                    { 2, new DateTime(2025, 4, 10, 14, 30, 0, 0, DateTimeKind.Unspecified), "Grooming", false, "Pet Smart", "Full grooming with nail trim", 2, "Mavis" },
-                    { 3, new DateTime(2025, 4, 12, 14, 30, 0, 0, DateTimeKind.Unspecified), "Vet", false, "Dog & Cat Hospital - East Hill", "Follow-up for paw stitches", 3, "Ollie" }
+                    { 1, new DateTime(2025, 4, 20, 10, 30, 0, 0, DateTimeKind.Unspecified), "Vet", "Happy Paws Clinic", "Regualar check-up and vaccination update", 1, "Joey" },
+                    { 2, new DateTime(2025, 4, 10, 14, 30, 0, 0, DateTimeKind.Unspecified), "Grooming", "Pet Smart", "Full grooming with nail trim", 2, "Mavis" },
+                    { 3, new DateTime(2025, 4, 12, 14, 30, 0, 0, DateTimeKind.Unspecified), "Vet", "Dog & Cat Hospital - East Hill", "Follow-up for paw stitches", 3, "Ollie" }
                 });
 
             migrationBuilder.InsertData(
@@ -182,8 +181,8 @@ namespace PetPal.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_PetId",
-                table: "Appointment",
+                name: "IX_Appointments_PetId",
+                table: "Appointments",
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
@@ -206,7 +205,7 @@ namespace PetPal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Appointment");
+                name: "Appointments");
 
             migrationBuilder.DropTable(
                 name: "Schedules");
