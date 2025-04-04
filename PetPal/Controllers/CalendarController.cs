@@ -15,21 +15,21 @@ namespace PetPal.Controllers
 		[HttpGet]
 		public JsonResult GetCalendarEvents(int petId)
 		{
-			//Store multiple events (Appointments & Training)
+			//store multiple events (appointments & training)
 			var events = new List<object>();
 
-			//var appointments = context.Appointments
-			//	.Where(a => a.PetId == petId)
-			//	.Select(a => new
-			//{
-			//	title = a.AppointmentType + " - " + a.PetName, //Event title
+			var appointments = context.Appointments
+				.Where(a => a.PetId == petId)
+				.Select(a => new
+				{
+					title = a.AppointmentType + " - " + a.PetName, //event title
 
-			//	start = a.AppointmentDateTime.ToString("s"), //When the event occurs
+					start = a.AppointmentDateTime.ToString("s"), //when the event occurs
 
-			//	color = "green" //green for appointments
-			//});
+					color = "green" //green for appointments
+				});
 
-			//events.AddRange(appointments); //Add appointment events to the list 
+			events.AddRange(appointments); //add appointment events to the list 
 
 
 			var training = context.Training
