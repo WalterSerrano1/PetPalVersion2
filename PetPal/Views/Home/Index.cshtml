@@ -40,7 +40,13 @@
         <div class="row g-4">
             <!-- Pets Grid -->
             <div class="col-12">
-                <h3>Your Pets</h3>
+
+                <div class="d-flex justify-content-between">
+                    <h3>@User.Identity.Name's Pets</h3>
+                    <!-- Add Pet -->
+                    <a asp-controller="Pets" asp-action="AddPet" class="btn btn-success">Add Pet</a>
+                </div>
+
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     @foreach (var pet in Model)
                     {

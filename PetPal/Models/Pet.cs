@@ -4,16 +4,17 @@ namespace PetPal.Models
 {
 	public class Pet
 	{
+		//primary key
 		public int PetId { get; set; }
 
 		//Foreign Key
 		public int UserId { get; set; }
 
-		[Required]
+		[Required (ErrorMessage ="Pet name is required")]
 		[StringLength(100)]
 		public string PetName { get; set; }
 
-		[Required]
+		[Required(ErrorMessage ="Pet type is required")]
 		public string PetType { get; set; }
 
 
@@ -22,13 +23,16 @@ namespace PetPal.Models
 
 		public DateTime PetBirthday { get; set; }
 
-		public int PetAge { get; set; }
+        [Required(ErrorMessage = "Age is required")]
+        [Range(0, 100, ErrorMessage = "Age must be between 0 and 100")]
+        public int PetAge { get; set; }
 
 
-		[StringLength(10)]
+        [Required(ErrorMessage = "Gender is required")]
+        [StringLength(10)]
 		public string PetGender { get; set; }
 		
-		public string ImageUrl { get; set; }
+		public string ImageUrl { get; set; } = "/images/default-pet.jpg"; //default value
 
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
@@ -37,6 +41,6 @@ namespace PetPal.Models
         public List<Training> Training { get; set; } = new List<Training>();
 
 		//navigation property
-		public User User { get; set; }
+		public User? User { get; set; }
     }
 }
