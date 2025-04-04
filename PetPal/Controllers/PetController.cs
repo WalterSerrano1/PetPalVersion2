@@ -76,7 +76,10 @@ namespace PetManagement.Controllers
         [HttpPost]
 		public async Task<IActionResult> AddPet(Pet pet, IFormFile? ImageFile)
 		{
-			if (ModelState.IsValid)
+            // Set EditMode 
+            ViewBag.EditMode = false;
+
+            if (ModelState.IsValid)
 			{
                 //get user id from authentication claims object
                 string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
