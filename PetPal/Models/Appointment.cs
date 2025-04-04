@@ -24,15 +24,9 @@ namespace PetPal.Models
 
 		[StringLength(500)]
 		public string Notes { get; set; }
-<<<<<<< HEAD
 		public bool IsComplete { get; set; }
 		public Pet? Pet { get; set; }
-=======
 
-		public Pet Pet { get; set; }
-
-		//Not added to the database, only for display
-		public bool IsPast => AppointmentDateTime < DateTime.Now;
->>>>>>> origin/master
+		//public bool IsPast => AppointmentDateTime < DateTime.Now;
 	}
 }

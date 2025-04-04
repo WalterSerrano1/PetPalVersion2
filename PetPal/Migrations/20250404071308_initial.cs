@@ -61,8 +61,7 @@ namespace PetPal.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PetId = table.Column<int>(type: "int", nullable: false),
                     PetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppointmentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppointmentDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppointmentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -80,7 +79,7 @@ namespace PetPal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedule",
+                name: "Schedules",
                 columns: table => new
                 {
                     ScheduleId = table.Column<int>(type: "int", nullable: false)
@@ -88,19 +87,20 @@ namespace PetPal.Migrations
                     PetId = table.Column<int>(type: "int", nullable: false),
                     PetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ScheduleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ScheduleTime = table.Column<TimeSpan>(type: "time", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Recurrence = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ScheduleType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Portion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Medication = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Dosage = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Frequency = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Portion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Medication = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Dosage = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ReminderNote = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
+                    table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
                     table.ForeignKey(
-                        name: "FK_Schedule_Pet_PetId",
+                        name: "FK_Schedules_Pet_PetId",
                         column: x => x.PetId,
                         principalTable: "Pet",
                         principalColumn: "PetId",
@@ -117,7 +117,7 @@ namespace PetPal.Migrations
                     PetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrainingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TrainingType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TrainingDuration = table.Column<int>(type: "int", nullable: false),
+                    TrainingDurationMinutes = table.Column<int>(type: "int", nullable: false),
                     TrainingNotes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
@@ -136,8 +136,8 @@ namespace PetPal.Migrations
                 columns: new[] { "UserId", "Password", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "$2a$11$b2.cm/vJLKsDwUZr2K38/OERH.QoOswgbTr9tp75efDNPuf4p6wJu", "Josie" },
-                    { 2, "$2a$11$BkvQVgG7shEsdDWKbVHyOeaNUm0pz1FZlILOZby/c5UExXWfHDyw.", "Walter" }
+                    { 1, "$2a$11$t1oCzHH/FUUsRtfflzCzo.Ak6tyfhnM7tQw0dP1dE.YUP7Le0zx32", "Josie" },
+                    { 2, "$2a$11$uxv9DKE/dPHwGv4tqVlWxekkBxbkGRYpPVL3jFrVlQwRCAHA1R38K", "Walter" }
                 });
 
             migrationBuilder.InsertData(
@@ -146,9 +146,39 @@ namespace PetPal.Migrations
                 values: new object[,]
                 {
                     { 1, "/images/Joey.jpg", 15, new DateTime(2010, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Japanese Bobtail", "Male", "Joey", "Cat", 1 },
-                    { 2, "/images/Mavis.jpg", 3, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Australian Shepard", "Male", "Mavis", "Dog", 2 },
-                    { 3, "/images/Ollie.jpg", 4, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Golden Doodle", "Male", "Ollie", "Dog", 2 },
+                    { 2, "/images/Mavis.jpg", 4, new DateTime(2022, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Australian Shepard", "Female", "Mavis", "Dog", 2 },
+                    { 3, "/images/Ollie.jpg", 4, new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Golden Doodle", "Male", "Ollie", "Dog", 2 },
                     { 4, "", 4, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Labrador", "Male", "Max", "Dog", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Appointment",
+                columns: new[] { "AppointmentId", "AppointmentDateTime", "AppointmentType", "IsComplete", "Location", "Notes", "PetId", "PetName" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 4, 20, 10, 30, 0, 0, DateTimeKind.Unspecified), "Vet", false, "Happy Paws Clinic", "Regualar check-up and vaccination update", 1, "Joey" },
+                    { 2, new DateTime(2025, 4, 10, 14, 30, 0, 0, DateTimeKind.Unspecified), "Grooming", false, "Pet Smart", "Full grooming with nail trim", 2, "Mavis" },
+                    { 3, new DateTime(2025, 4, 12, 14, 30, 0, 0, DateTimeKind.Unspecified), "Vet", false, "Dog & Cat Hospital - East Hill", "Follow-up for paw stitches", 3, "Ollie" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Schedules",
+                columns: new[] { "ScheduleId", "Dosage", "EndDate", "Medication", "PetId", "PetName", "Portion", "Recurrence", "ReminderNote", "ScheduleDate", "ScheduleTime", "ScheduleType" },
+                values: new object[,]
+                {
+                    { 1, null, null, null, 1, "Joey", "1/4 cup dry food", "Daily", "Morning feeding", new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 8, 0, 0, 0), "Feeding" },
+                    { 2, null, null, null, 2, "Mavis", "1/2 cup of OpenFarm food", "Daily", "Morning feeding", new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 11, 0, 0, 0), "Feeding" },
+                    { 3, "5 ml", null, "Antibiotic", 3, "Ollie", null, "Daily", "After evening meal", new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 18, 0, 0, 0), "Medication" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Training",
+                columns: new[] { "TrainingId", "PetId", "PetName", "TrainingDate", "TrainingDurationMinutes", "TrainingNotes", "TrainingType" },
+                values: new object[,]
+                {
+                    { 1, 1, "Joey", new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 20, "Interactive toy session indoors.", "Play Time" },
+                    { 2, 2, "Mavis", new DateTime(2025, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 30, "Walked around the park. Very energetic.", "Walking" },
+                    { 3, 3, "Ollie", new DateTime(2025, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 60, "Practiced recall and fetch. Good progress.", "New Trick" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -162,8 +192,8 @@ namespace PetPal.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedule_PetId",
-                table: "Schedule",
+                name: "IX_Schedules_PetId",
+                table: "Schedules",
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
@@ -179,7 +209,7 @@ namespace PetPal.Migrations
                 name: "Appointment");
 
             migrationBuilder.DropTable(
-                name: "Schedule");
+                name: "Schedules");
 
             migrationBuilder.DropTable(
                 name: "Training");

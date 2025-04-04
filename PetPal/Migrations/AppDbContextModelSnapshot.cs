@@ -38,6 +38,9 @@ namespace PetPal.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -58,7 +61,7 @@ namespace PetPal.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointment");
 
                     b.HasData(
                         new
@@ -66,6 +69,7 @@ namespace PetPal.Migrations
                             AppointmentId = 1,
                             AppointmentDateTime = new DateTime(2025, 4, 20, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             AppointmentType = "Vet",
+                            IsComplete = false,
                             Location = "Happy Paws Clinic",
                             Notes = "Regualar check-up and vaccination update",
                             PetId = 1,
@@ -76,6 +80,7 @@ namespace PetPal.Migrations
                             AppointmentId = 2,
                             AppointmentDateTime = new DateTime(2025, 4, 10, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             AppointmentType = "Grooming",
+                            IsComplete = false,
                             Location = "Pet Smart",
                             Notes = "Full grooming with nail trim",
                             PetId = 2,
@@ -86,6 +91,7 @@ namespace PetPal.Migrations
                             AppointmentId = 3,
                             AppointmentDateTime = new DateTime(2025, 4, 12, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             AppointmentType = "Vet",
+                            IsComplete = false,
                             Location = "Dog & Cat Hospital - East Hill",
                             Notes = "Follow-up for paw stitches",
                             PetId = 3,
@@ -380,13 +386,13 @@ namespace PetPal.Migrations
                         new
                         {
                             UserId = 1,
-                            Password = "$2a$11$b2.cm/vJLKsDwUZr2K38/OERH.QoOswgbTr9tp75efDNPuf4p6wJu",
+                            Password = "$2a$11$t1oCzHH/FUUsRtfflzCzo.Ak6tyfhnM7tQw0dP1dE.YUP7Le0zx32",
                             UserName = "Josie"
                         },
                         new
                         {
                             UserId = 2,
-                            Password = "$2a$11$BkvQVgG7shEsdDWKbVHyOeaNUm0pz1FZlILOZby/c5UExXWfHDyw.",
+                            Password = "$2a$11$uxv9DKE/dPHwGv4tqVlWxekkBxbkGRYpPVL3jFrVlQwRCAHA1R38K",
                             UserName = "Walter"
                         });
                 });
