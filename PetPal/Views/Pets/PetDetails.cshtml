@@ -36,14 +36,17 @@
 			<div id="calendarContainer" class="p-4 mb-4" style="background-color: #f8f9fa; border-radius: 10px; min-height: 400px;">
 				<div id='calendar'></div>
 				<script>
-												   document.addEventListener('DOMContentLoaded', function() {
+					document.addEventListener('DOMContentLoaded', function() {
 					  var calendarEl = document.getElementById('calendar');
+
 					  var calendar = new FullCalendar.Calendar(calendarEl, {
-						initialView: 'dayGridMonth'
+						initialView: 'dayGridMonth',
+						height: 'auto',
+						events: '/Calendar/GetCalendarEvents?petId=@Model.PetId'
 					  });
+
 					  calendar.render();
 					});
-				</script>
 				</script>
 			</div>
 
