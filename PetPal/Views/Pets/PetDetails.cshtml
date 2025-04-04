@@ -1,31 +1,23 @@
-﻿@{
-	ViewData["Title"] = "Pet Details";
-
-	var pet = new
-	{
-		Name = "Mavis",
-		Breed = "Australian Shepherd",
-		Age = 3,
-		Birthday = "March 23rd",
-		Notes = "Loves to play fetch. High energy, needs constant walks.",
-		ImageUrl = "/images/Mavis.jpg"
-	};
+﻿@model Pet
+@{
+	ViewBag.Title = "Pet Details";
 }
 
 <div class="container mt-5">
-	<h2 class="text-center mb-4">@pet.Name's Profile</h2>
+	<h2 class="text-center mb-4">@Model.PetName's Profile</h2>
 
 	<div class="row">
 		<!-- Left column: Pet Information -->
 		<div class="col-md-4">
 			<div class="card mb-4">
-				<img src="@pet.ImageUrl" class="card-img-top" alt="@pet.Name" />
+				<img src="@Model.ImageUrl" class="card-img-top" alt="@Model.PetName" />
 				<div class="card-body text-center">
-					<h4 class="card-title">@pet.Name</h4>
-					<p class="card-text"><strong>Breed:</strong> @pet.Breed</p>
-					<p class="card-text"><strong>Age:</strong> @pet.Age years old</p>
-					<p class="card-text"><strong>Weight:</strong> @pet.Birthday</p>
-					<p class="card-text"><strong>Notes:</strong> @pet.Notes</p>
+					<h4 class="card-title">@Model.PetName</h4>
+					<p class="card-text"><strong>Breed:</strong> @Model.PetBreed</p>
+					<p class="card-text"><strong>Gender</strong> @Model.PetGender</p>
+					<p class="card-text"><strong>Age:</strong> @Model.PetAge years old</p>
+					<p class="card-text"><strong>Birthday:</strong> @Model.PetBirthday.ToString("MMMM dd, yyyy")</p>
+					@* <p class="card-text"><strong>Notes:</strong> @Model.Notes</p> *@
 				</div>
 			</div>
 		</div>
@@ -36,17 +28,19 @@
 			<div id="calendarContainer" class="p-4 mb-4" style="background-color: #f8f9fa; border-radius: 10px; min-height: 400px;">
 				<div id='calendar'></div>
 				<script>
-												   document.addEventListener('DOMContentLoaded', function() {
+					document.addEventListener('DOMContentLoaded', function() {
 					  var calendarEl = document.getElementById('calendar');
+
 					  var calendar = new FullCalendar.Calendar(calendarEl, {
-						initialView: 'dayGridMonth'
+						initialView: 'dayGridMonth',
+						height: 'auto',
+						events: '/Calendar/GetCalendarEvents?petId=@Model.PetId'
 					  });
+
 					  calendar.render();
 					});
 				</script>
-				</script>
 			</div>
-
 			<!-- Links under the calendar -->
 			<div class="d-flex gap-3">
 				<a asp-controller="Pets" asp-action="Appointments" class="btn btn-primary flex-fill">Set an Appointment</a>

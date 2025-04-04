@@ -26,14 +26,28 @@ namespace PetPal.Controllers
 
             if (int.TryParse(userIdClaim, out int userId))
             {
-                // You can access user info from claims
-                var username = User.Identity.Name;
-                ViewBag.Username = username;
+				var model = new DashboardViewModel
+				{
+					Pets = await _context.Pet
+				 .Where(p => p.UserId == userId)
+				 .ToListAsync(),
 
-                //get pets for current user
-                var userPets = await _context.Pet.Where(p => p.UserId == userId).ToListAsync();
-                return View(userPets);  
-            }
+					Appointments = await _context.Appointments
+				 .Where(a => a.AppointmentDateTime >= DateTime.Today && a.Pet.UserId == userId)
+				 .Include(a => a.Pet)
+				 .OrderBy(a => a.AppointmentDateTime)
+				 .Take(5)
+				 .ToListAsync(),
+
+					Trainings = await _context.Training
+				 .Where(t => t.Pet.UserId == userId)
+				 .Include(t => t.Pet)
+				 .OrderBy(t => t.TrainingDate)
+				 .Take(5)
+				 .ToListAsync()
+				};
+				return View("Index", model);
+			}
 
             return RedirectToAction("Login", "Home");
         }

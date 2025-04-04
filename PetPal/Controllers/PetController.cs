@@ -19,9 +19,10 @@ namespace PetManagement.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult PetDetails()
+        public IActionResult PetDetails(int id)
 		{
-			return View();
+			var pet = _context.Pet.FirstOrDefault(p => p.PetId == id);
+			return View(pet);
 		}
 		public IActionResult Appointment()
 		{

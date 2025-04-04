@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetPal.Data;
 
@@ -11,9 +12,11 @@ using PetPal.Data;
 namespace PetPal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403190131_AddPetEventsModels")]
+    partial class AddPetEventsModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,21 +383,13 @@ namespace PetPal.Migrations
                         new
                         {
                             UserId = 1,
-<<<<<<< HEAD
-                            Password = "$2a$11$b2.cm/vJLKsDwUZr2K38/OERH.QoOswgbTr9tp75efDNPuf4p6wJu",
-=======
                             Password = "$2a$11$wp5ru8F9xrKXCbHAz1eDf.CJYczC6Z8WFaKtaSNG99Kla9u6Peqim",
->>>>>>> origin/master
                             UserName = "Josie"
                         },
                         new
                         {
                             UserId = 2,
-<<<<<<< HEAD
-                            Password = "$2a$11$BkvQVgG7shEsdDWKbVHyOeaNUm0pz1FZlILOZby/c5UExXWfHDyw.",
-=======
                             Password = "$2a$11$W11KvxC86p7FMW452vF/7ePDQ7GsJKp1uFnn.ywxghsl6CItcSwzG",
->>>>>>> origin/master
                             UserName = "Walter"
                         });
                 });
