@@ -1,36 +1,7 @@
-﻿@model IEnumerable<PetPal.Models.Pet>
+﻿@model PetPal.Models.DashboardViewModel
 @{
     ViewData["Title"] = "Home Page";
     int index = 0;
-}
-@functions {
-    public class Reminder
-    {
-        public string Message { get; set; }
-        public string StatusClass { get; set; } 
-    }
-
-    public class Appointment
-    {
-        public DateTime Date { get; set; }
-        public string Type { get; set; }
-        public string PetName { get; set; }
-    }
-
-
-    List<Reminder> reminders = new List<Reminder>
-    {
-        new Reminder { Message = "Vaccination due for Ollie", StatusClass = "text-danger" },
-        new Reminder { Message = "Checkup due for Mavis", StatusClass = "text-warning" },
-        new Reminder { Message = "Grooming due for Max", StatusClass = "text-warning" }
-    };
-
-    List<Appointment> appointments = new List<Appointment>
-    {
-        new Appointment { Date = DateTime.Today.AddDays(1), Type = "Vaccination", PetName = "Ollie" },
-        new Appointment { Date = DateTime.Today.AddDays(2), Type = "Checkup", PetName = "Mavis" },
-        new Appointment { Date = DateTime.Today.AddDays(3), Type = "Grooming", PetName = "Max" }
-    };
 }
 
 <body>
@@ -48,7 +19,7 @@
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    @foreach (var pet in Model)
+                    @foreach (var pet in Model.Pets)
                     {
                         <div class="col">
                             <div class="card pet-card">
@@ -74,22 +45,28 @@
                 <div class="appointments-card">
                     <h4>Upcoming Appointments</h4>
                     <ul class="list-group">
-                        @foreach (var appointment in appointments)
+                        @foreach (var appointment in Model.Appointments)
                         {
-                            <li class="list-group-item">@appointment.Date.ToString("MMMM dd") - @appointment.Type for @appointment.PetName</li>
+                            <li class="list-group-item">
+                                @appointment.AppointmentDateTime.ToString("MMMM dd, hh:mm tt") -
+                                @appointment.AppointmentType for @appointment.PetName
+                            </li>
                         }
                     </ul>
-                    <a href="/Appointments" class="btn btn-link mt-2">View All</a>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <div class="reminders-card">
-                    <h4>Reminders</h4>
+                <div class="training-card">
+                    <h4>Training</h4>
                     <ul class="list-group">
-                        @foreach (var reminder in reminders)
+                        @foreach (var training in Model.Trainings)
                         {
-                            <li class="list-group-item @(reminder.StatusClass)">@reminder.Message</li>
+                            <li class="list-group-item">
+                                @training.TrainingDate.ToString("MMMM dd") -
+                                @training.TrainingType for @training.PetName
+                                (@training.TrainingDurationMinutes mins)
+                            </li>
                         }
                     </ul>
                 </div>
