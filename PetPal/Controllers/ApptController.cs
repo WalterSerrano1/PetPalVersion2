@@ -89,7 +89,7 @@ namespace PetPal.Controllers
                 _context.Appointments.Add(model);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Appointment added successfully!";
+                
                 return RedirectToAction("Index", "Home", new { id = model.PetId });
             }
 
