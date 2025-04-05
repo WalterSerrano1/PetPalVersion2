@@ -14,15 +14,18 @@ namespace PetPal.Controllers
     {
         private readonly AppDbContext _context;
 
+        //Inject AppDbContext
         public AuthController(AppDbContext context)
         {
             _context = context;
         }
 
+        //Handles Login request
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            //Check if Credentials are valid and redirect back to login if not
             if (!ModelState.IsValid)
             {
                 return View("~/Views/Home/Login.cshtml", model);
@@ -68,10 +71,12 @@ namespace PetPal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //Handle user registration
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            //checks if user credentials are valid and if not, redirect to register page
             if (!ModelState.IsValid)
             {
                 return View("~/Views/Home/Register.cshtml", model);
@@ -84,7 +89,7 @@ namespace PetPal.Controllers
                 return View("~/Views/Home/Register.cshtml", model);
             }
 
-            // Hash the password
+            // Hash the password using Bcrypt
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
             // Create new user
@@ -103,8 +108,9 @@ namespace PetPal.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        //Handles logout
         [HttpPost]
-        [Authorize]
+        [Authorize] //protected route
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {

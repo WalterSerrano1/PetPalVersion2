@@ -6,12 +6,14 @@ namespace PetPal.Controllers
 {
 	public class CalendarController : Controller
 	{
+		//Get AppDbContext via constructor injection
 		private AppDbContext context { get; set; }
 		public CalendarController(AppDbContext ctx)
 		{
 			context = ctx;
 		}
 
+		//Get calendar events based on pet id
 		[HttpGet]
 		public JsonResult GetCalendarEvents(int petId)
 		{
@@ -33,6 +35,7 @@ namespace PetPal.Controllers
 			events.AddRange(appointments); //Add appointment events to the list 
 
 
+			//filter training by pet id
 			var training = context.Training
 				.Where(t => t.PetId == petId)
 				.Select(t => new
@@ -44,8 +47,10 @@ namespace PetPal.Controllers
 					color = "blue" //blue for training
 				});
 
-			events.AddRange(training);
+            // Add the training events to the collection of all events
+            events.AddRange(training);
 
+			//return event as JSON
 			return Json(events);
 		}
 

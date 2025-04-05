@@ -67,7 +67,8 @@
             <div class="col-md-6">
                 <div class="appointments-card">
                     <h4>Upcoming Appointments</h4>
-                     <ul class="list-group"> 
+                     <ul class="list-group">
+                        <!--Display appointment list-->
                          @foreach (var appointment in Model.Appointments) 
                          { 
                             <li class="list-group-item"> 
@@ -90,6 +91,7 @@
                 <div class="training-card">
                     <h4>Training</h4>
                     <ul class="list-group">
+                        <!--Display training list-->
                         @foreach (var training in Model.Trainings)
                         {
                             <li class="list-group-item d-flex justify-content-between align-items-center">

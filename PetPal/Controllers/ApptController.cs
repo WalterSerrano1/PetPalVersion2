@@ -13,11 +13,13 @@ namespace PetPal.Controllers
     {
         private readonly AppDbContext _context;
 
+        //Inject AppDbContext Dependency
         public AppointmentController(AppDbContext context)
         {
             _context = context;
         }
 
+        //Get Appointment page
         [HttpGet]
         public async Task<IActionResult> Appointment(int? id = null)
         {
@@ -55,9 +57,11 @@ namespace PetPal.Controllers
                 }
             }
 
+            //Return Appointment view with appointment object
             return View(appointment);
         }
 
+        //
         [HttpPost]
         public async Task<IActionResult> Appointment(Appointment model)
         {
@@ -83,6 +87,7 @@ namespace PetPal.Controllers
             // Remove previous PetName validation error
             ModelState.Remove("PetName");
 
+            //check if appointment model meets validation requirements
             if (ModelState.IsValid)
             {
                 // Add the appointment and save
@@ -90,6 +95,7 @@ namespace PetPal.Controllers
                 await _context.SaveChangesAsync();
 
                 
+                //Redirect to home page
                 return RedirectToAction("Index", "Home", new { id = model.PetId });
             }
 
@@ -105,13 +111,15 @@ namespace PetPal.Controllers
 
             ViewBag.Pets = userPets;
 
-            // If we got this far, something failed, redisplay form
+            // If error redisplay form
             return View(model);
         }
 
+        //Delete appointment by ID
         [HttpPost]
         public async Task<IActionResult> DeleteAppointment (int id)
         {
+            //Check for valid apppointment number
             if (id <= 0)
             {
                 return NotFound();
@@ -134,7 +142,7 @@ namespace PetPal.Controllers
                 ModelState.AddModelError("", "Error deleting appointment: " + ex.Message);
             }
 
-            // Redirect to the pet details page or index
+            // Redirect to the Home page
             return RedirectToAction("Index", "Home");
         }
 

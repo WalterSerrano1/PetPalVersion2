@@ -49,6 +49,7 @@ namespace PetPal.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Training(Training training)
 		{
+			//check if model passed to controller is valid
 			if (ModelState.IsValid)
 			{
 				if (training.TrainingId == 0)

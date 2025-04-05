@@ -19,6 +19,7 @@ namespace PetManagement.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        //Get pets by id for petDetils page
         public IActionResult PetDetails(int id)
 		{
 			var pet = _context.Pet.FirstOrDefault(p => p.PetId == id);
@@ -118,6 +119,7 @@ namespace PetManagement.Controllers
             return _context.Pet.Any(e => e.PetId == id);
         }
 
+        //post method handle editing pets
         [HttpPost]
         public async Task<IActionResult> EditPet(int id, Pet pet, IFormFile? ImageFile)
         {
