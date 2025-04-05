@@ -7,69 +7,66 @@ namespace PetPal.Controllers
 {
 	public class TrainingController : Controller
 	{
-		private AppDbContext _context { get; set; }
+		private readonly AppDbContext _context;
+
 		public TrainingController(AppDbContext ctx)
 		{
 			_context = ctx;
 		}
 
-		// GET; Training/Create/{petId}
+		// GET: Training/Upsert?petId=2&id=5
 		[HttpGet]
-		public IActionResult Create(int petId)
+		public async Task<IActionResult> Training(int petId, int? id)
 		{
-			var pet = _context.Pet.FirstOrDefault(p => p.PetId == petId);
-			if (pet == null) return NotFound();
+			Training training;
 
-			//prefill PetId and PetName
-			var training = new Training
+			if (id == null)
 			{
-				PetId = petId,
-				PetName = pet.PetName,
-				TrainingDate = DateTime.Today
-			};
-			return View(training);
+				var pet = await _context.Pet.FirstOrDefaultAsync(p => p.PetId == petId);
+				if (pet == null) return NotFound();
+
+				training = new Training
+				{
+					PetId = petId,
+					PetName = pet.PetName,
+					TrainingDate = DateTime.Today
+				};
+			}
+			else
+			{
+				training = await _context.Training
+					.Include(t => t.Pet)
+					.FirstOrDefaultAsync(t => t.TrainingId == id);
+
+				if (training == null) return NotFound();
+				training.PetName = training.Pet?.PetName;
+			}
+
+			return View("Training", training);
 		}
 
-		// POST: Training/Create
+		// POST: Training/Upsert
 		[HttpPost]
-		public async Task<IActionResult> Create(Training training)
+		public async Task<IActionResult> Training(Training training)
 		{
 			if (ModelState.IsValid)
 			{
-				_context.Training.Add(training);
+				if (training.TrainingId == 0)
+				{
+					_context.Training.Add(training);
+				}
+				else
+				{
+					_context.Training.Update(training);
+				}
+
 				await _context.SaveChangesAsync();
 				return RedirectToAction("PetDetails", "Pets", new { id = training.PetId });
 			}
 
-			return View(training);
-		
-		}
-
-		// GET: Training/Edit/{id}
-		[HttpGet]
-		public async Task<IActionResult> Edit(int id)
-		{
-			var training = await _context.Training
-				.Include(t => t.Pet)
-				.FirstOrDefaultAsync(t => t.TrainingId == id);
-
-			if (training == null) return NotFound();
-
-			training.PetName = training.Pet.PetName; // Set PetName from the related Pet entity
-			return View("Training");
-		}
-
-		// POST: Training/Edit/{id}
-		[HttpPost]
-		public async Task<IActionResult> Edit(Training training)
-		{
-			if (ModelState.IsValid)
-			{
-				_context.Update(training);
-				await _context.SaveChangesAsync();
-				return RedirectToAction("PetDetails", "Pets", new { id = training.PetId });
-			}
-			return View(training);
+			// fallback to set PetName for redisplay
+			training.PetName ??= (await _context.Pet.FindAsync(training.PetId))?.PetName;
+			return View("Training", training);
 		}
 
 		// GET: Training/Delete/{id}
@@ -79,12 +76,14 @@ namespace PetPal.Controllers
 			var training = await _context.Training
 				.Include(t => t.Pet)
 				.FirstOrDefaultAsync(t => t.TrainingId == id);
+
 			if (training == null) return NotFound();
-			training.PetName = training.Pet.PetName; // Set PetName from the related Pet entity
+
+			training.PetName = training.Pet.PetName;
 			return View(training);
 		}
 
-		// POST: Training/Delete/{id}
+		// POST: Training/DeleteConfirmed
 		[HttpPost, ActionName("Delete")]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
@@ -94,10 +93,11 @@ namespace PetPal.Controllers
 				_context.Training.Remove(training);
 				await _context.SaveChangesAsync();
 			}
+
 			return RedirectToAction("PetDetails", "Pets", new { id = training.PetId });
 		}
 
-		// GET: Training/Details/{id}
+		// GET: Training/GetDetailsPartial/{id}
 		[HttpGet]
 		public async Task<IActionResult> GetDetailsPartial(int id)
 		{
@@ -107,9 +107,7 @@ namespace PetPal.Controllers
 
 			if (training == null) return NotFound();
 
-			return PartialView("" + "TrainingDetails", training);
+			return PartialView("TrainingDetails", training);
 		}
-
-
 	}
 }

@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-8">
         <!-- Adjusts form action based on if it's Create or Edit -->
-        <form asp-action="@(Model.TrainingId == 0 ? "Create" : "Edit")" method="post">
+        <form asp-action="Training" method="post">
 
             <!-- Show validation errors -->
             <div asp-validation-summary="All" class="text-danger"></div>

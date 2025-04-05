@@ -47,8 +47,8 @@
 			<!-- Links under the calendar -->
 			<div class="d-flex gap-3">
 				<a asp-controller="Appointment" asp-action="Appointment" class="btn btn-primary flex-fill">Set an Appointment</a>
-				<a asp-controller="Schedule" asp-action="Create" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Set a Schedule</a>
-				<a asp-controller="Training" asp-action="Create" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Log Training Exercise</a>
+				<a asp-controller="Schedule" asp-action="Schedule" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Set a Schedule</a>
+				<a asp-controller="Training" asp-action="Training" asp-route-petId="@Model.PetId" class="btn btn-primary flex-fill">Log Training Exercise</a>
 			</div>
 			<!-- Schedule Modal -->
 			<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">

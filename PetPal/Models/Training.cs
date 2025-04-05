@@ -28,6 +28,6 @@ namespace PetPal.Models
 
 		[ValidateNever]
 		public Pet Pet { get; set; }
-		public bool IsPast => TrainingDate < DateTime.Today;
+		
 	}
 }

@@ -44,7 +44,5 @@ namespace PetPal.Models
 		[ValidateNever]
 		public Pet Pet { get; set; }
 
-		//Not in the database, display only
-		public bool IsPast => ScheduleDate.Add(ScheduleTime ?? TimeSpan.Zero) < DateTime.Now;
 	}
 }

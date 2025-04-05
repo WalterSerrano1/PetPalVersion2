@@ -14,62 +14,52 @@ namespace PetPal.Controllers
 			_context = context;
 		}
 
-		// GET: Create schedule for a pet
+		// GET: Upsert (Create/Edit) Schedule
 		[HttpGet]
-		public async Task<IActionResult> Create(int petId)
+		public async Task<IActionResult> Schedule(int petId, int? id)
 		{
-			var pet = await _context.Pet.FirstOrDefaultAsync(p => p.PetId == petId);
-			if (pet == null) return NotFound();
+			Schedule schedule;
 
-			var schedule = new Schedule
+			if (id == null)
 			{
-				PetId = petId,
-				PetName = pet.PetName,
-				ScheduleDate = DateTime.Today
-			};
+				var pet = await _context.Pet.FirstOrDefaultAsync(p => p.PetId == petId);
+				if (pet == null) return NotFound();
 
-			return View("Schedule", schedule);
-		}
-
-		// POST: Save new schedule
-		[HttpPost]
-		public async Task<IActionResult> Create(Schedule schedule)
-		{
-			if (ModelState.IsValid)
+				schedule = new Schedule
+				{
+					PetId = petId,
+					PetName = pet.PetName,
+					ScheduleDate = DateTime.Today
+				};
+			}
+			else
 			{
-				_context.Schedules.Add(schedule);
-				await _context.SaveChangesAsync();
-				return RedirectToAction("PetDetails", "Pets", new { id = schedule.PetId });
+				schedule = await _context.Schedules
+					.Include(s => s.Pet)
+					.FirstOrDefaultAsync(s => s.ScheduleId == id);
+
+				if (schedule == null) return NotFound();
+				schedule.PetName = schedule.Pet?.PetName;
 			}
 
-			// Reload PetName if validation fails
-			schedule.PetName ??= (await _context.Pet.FindAsync(schedule.PetId))?.PetName;
 			return View("Schedule", schedule);
 		}
 
-		// GET: Edit existing schedule
-		[HttpGet]
-		public async Task<IActionResult> Edit(int id)
-		{
-			var schedule = await _context.Schedules
-				.Include(s => s.Pet)
-				.FirstOrDefaultAsync(s => s.ScheduleId == id);
-
-			if (schedule == null) return NotFound();
-
-			schedule.PetName = schedule.Pet?.PetName;
-			return View("Schedule", schedule);
-		}
-
-		// POST: Save schedule changes
+		// POST: Upsert (Create/Edit) Schedule
 		[HttpPost]
-		public async Task<IActionResult> Edit(int id, Schedule schedule)
+		public async Task<IActionResult> Schedule(Schedule schedule)
 		{
-			if (id != schedule.ScheduleId) return NotFound();
-
 			if (ModelState.IsValid)
 			{
-				_context.Schedules.Update(schedule);
+				if (schedule.ScheduleId == 0)
+				{
+					_context.Schedules.Add(schedule);
+				}
+				else
+				{
+					_context.Schedules.Update(schedule);
+				}
+
 				await _context.SaveChangesAsync();
 				return RedirectToAction("PetDetails", "Pets", new { id = schedule.PetId });
 			}
@@ -78,7 +68,6 @@ namespace PetPal.Controllers
 			return View("Schedule", schedule);
 		}
 
-		// POST: Delete a schedule
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id)
 		{
@@ -91,7 +80,6 @@ namespace PetPal.Controllers
 			return RedirectToAction("PetDetails", "Pets", new { id = schedule.PetId });
 		}
 
-		// GET: Fetch schedules for a specific pet
 		[HttpGet]
 		public async Task<IActionResult> GetSchedule(int petId)
 		{
@@ -101,7 +89,5 @@ namespace PetPal.Controllers
 
 			return PartialView("FeedingSchedule", schedules);
 		}
-
-
 	}
 }
